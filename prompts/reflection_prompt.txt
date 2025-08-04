@@ -1,0 +1,4 @@
+Ziel: Tagesreflexion durch den Nutzer
+Kontext: Der Nutzer möchte den Tag Revue passieren lassen und Erkenntnisse gewinnen
+Frage: "Welche drei Ereignisse haben dich heute am meisten beschäftigt und warum?"
+Ausgabeformat: Antwort als strukturierte Liste mit jeweils Kurzreflexion
