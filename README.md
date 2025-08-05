@@ -33,6 +33,11 @@ Ein KI-gestützter LifeCoach-Bot mit Fokus auf persönliches Wachstum durch Mood
    ```bash
    cp .env.example .env
    ```
+   Beispielinhalt der `.env`:
+   ```env
+   TELEGRAM_TOKEN=dein-telegram-token
+   OPENAI_API_KEY=dein-openai-key
+   ```
 4. Bot starten:
    ```bash
    python bot/main.py
