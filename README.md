@@ -1,8 +1,28 @@
-# KI Life Coach Bot
+# ki-life-coach-bot
 
-Ein KI-gestützter LifeCoach-Bot mit Mood-Tracking, GPT-Reflexionsdialogen, Habit-Tracking und optionalem Webinterface.
+Ein KI-gestützter LifeCoach-Bot mit Fokus auf persönliches Wachstum durch Mood-Tracking, GPT-Coaching und Habit-Tracking.
 
-## Installation
+## Ziele
+- Mood-Tracking
+- GPT-Coaching
+- Habit-Tracking
+
+## Roadmap
+
+### Phase 1 – Telegram-Bot, Mood & GPT
+- Telegram-Bot
+- Mood-Tracking
+- GPT-Reflexionen
+
+### Phase 2 – Analytics & Micro-Learnings
+- Analytics
+- Micro-Learnings
+
+### Phase 3 – Web & Teams
+- Webintegration
+- Teamfunktionen
+
+## Installation & Setup
 
 1. Python 3.11+ installieren.
 2. Repository klonen und Abhängigkeiten installieren:
@@ -17,22 +37,6 @@ Ein KI-gestützter LifeCoach-Bot mit Mood-Tracking, GPT-Reflexionsdialogen, Habi
    ```bash
    python bot/main.py
    ```
-
-## Roadmap
-
-### Phase 1 – Basisfunktionen
-- Telegram-Bot mit GPT-Reflexionsdialog
-- Mood-Tracking
-- Persistenz mit SQLite
-
-### Phase 2 – Habits & Analytics
-- Habit-Tracking und Auswertung
-- Visualisierung mit Matplotlib
-
-### Phase 3 – Web & Skalierung
-- Optionales Flask-Webinterface
-- Umstieg auf Postgres
-- Deployment & CI/CD
 
 ## Hinweise für Entwickler
 - OpenAI-API: Verwende das offizielle `openai`-Package und setze den API-Key über die `.env`.

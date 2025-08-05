@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 
 # Virtual environments
-.env
 .venv/
 venv/
 
@@ -25,4 +24,9 @@ dist/
 
 # Environment files
 .env
+
+# Project directories
+data/*
+!data/.gitkeep
+web/static/
 
