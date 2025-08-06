@@ -9,7 +9,7 @@ from datetime import date, datetime, timedelta
 from collections import Counter
 import sqlite3
 
-from services import mood_service
+from services import mood_service, habit_service
 
 logger = logging.getLogger(__name__)
 
@@ -122,6 +122,121 @@ async def moodstats(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
     except Exception:
         logger.exception("Failed to handle /moodstats command")
+        await update.message.reply_text(
+            "Es ist ein unerwarteter Fehler aufgetreten."
+        )
+
+
+async def habit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle the ``/habit`` command.
+
+    Creates a new habit for the user and asks about reminders.
+    """
+    user_id = update.effective_user.id
+    if not context.args:
+        await update.message.reply_text(
+            "Bitte gib den Namen der Gewohnheit an, z.B. /habit Lesen"
+        )
+        return
+
+    name = " ".join(context.args)
+    try:
+        habit_service.create_habit(user_id, name)
+        await update.message.reply_text(
+            f"Gewohnheit '{name}' wurde angelegt.\n"
+            "Möchtest du tägliche Erinnerungen erhalten?"
+        )
+    except ValueError:
+        await update.message.reply_text(
+            "Eine Gewohnheit mit diesem Namen existiert bereits."
+        )
+    except sqlite3.Error:
+        logger.exception("Database error while creating habit")
+        await update.message.reply_text(
+            "Beim Speichern der Gewohnheit ist ein Fehler aufgetreten."
+        )
+    except Exception:
+        logger.exception("Failed to handle /habit command")
+        await update.message.reply_text(
+            "Es ist ein unerwarteter Fehler aufgetreten."
+        )
+
+
+async def habit_done(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle the ``/habit_done`` command.
+
+    Marks a habit as completed for today.
+    """
+    user_id = update.effective_user.id
+    if not context.args:
+        await update.message.reply_text(
+            "Bitte gib den Namen der Gewohnheit an, z.B. /habit_done Lesen"
+        )
+        return
+
+    name = " ".join(context.args).lower()
+    try:
+        habits = habit_service.get_user_habits(user_id)
+        habit_entry = next(
+            (h for h in habits if h["name"].lower() == name), None
+        )
+        if not habit_entry:
+            await update.message.reply_text(
+                "Keine Gewohnheit mit diesem Namen gefunden."
+            )
+            return
+
+        habit_service.complete_habit(user_id, habit_entry["id"])
+        streak = habit_service.get_habit_streak(user_id, habit_entry["id"])
+        message = (
+            f"Gewohnheit '{habit_entry['name']}' abgehakt! "
+            f"Aktueller Streak: {streak} Tage."
+        )
+        if streak and streak % 7 == 0:
+            message += f"\nGroßartig! Du hast {streak} Tage in Folge geschafft!"
+        await update.message.reply_text(message)
+    except sqlite3.Error:
+        logger.exception("Database error while completing habit")
+        await update.message.reply_text(
+            "Beim Aktualisieren der Gewohnheit ist ein Fehler aufgetreten."
+        )
+    except Exception:
+        logger.exception("Failed to handle /habit_done command")
+        await update.message.reply_text(
+            "Es ist ein unerwarteter Fehler aufgetreten."
+        )
+
+
+async def habits(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle the ``/habits`` command.
+
+    Sends an overview of all habits with their streaks and last seven days.
+    """
+    user_id = update.effective_user.id
+    try:
+        user_habits = habit_service.get_user_habits(user_id)
+        if not user_habits:
+            await update.message.reply_text("Keine Gewohnheiten gefunden.")
+            return
+
+        start = date.today() - timedelta(days=6)
+        lines = []
+        for h in user_habits:
+            history = []
+            for i in range(7):
+                day = start + timedelta(days=i)
+                history.append("✅" if day in h["logs"] else "✗")
+            lines.append(
+                f"{h['name']} (Streak: {h['streak']}): {''.join(history)}"
+            )
+        await update.message.reply_text("\n".join(lines))
+    except sqlite3.Error:
+        logger.exception("Database error while listing habits")
+        await update.message.reply_text(
+            "Beim Abrufen deiner Gewohnheiten ist ein Fehler aufgetreten."
+        )
+    except Exception:
+        logger.exception("Failed to handle /habits command")
         await update.message.reply_text(
             "Es ist ein unerwarteter Fehler aufgetreten."
         )
