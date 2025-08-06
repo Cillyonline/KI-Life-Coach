@@ -11,10 +11,14 @@ import logging
 import os
 from pathlib import Path
 from typing import Optional
+import sys
+
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from telegram.ext import Application, CommandHandler, ContextTypes
 
-from handler import help_command, start
+from handler import help_command, start, mood, moodstats
+from services.mood_service import init_db
 
 # Configure logging once for the whole application
 logging.basicConfig(
@@ -60,10 +64,14 @@ def main() -> None:
 
     token = _load_token()
 
+    init_db()
+
     # Build the application and register command handlers
     application = Application.builder().token(token).build()
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("mood", mood))
+    application.add_handler(CommandHandler("moodstats", moodstats))
     application.add_error_handler(error_handler)
 
     logger.info("Bot is starting. Press Ctrl-C to stop.")

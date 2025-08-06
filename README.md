@@ -43,6 +43,13 @@ Ein KI-gestützter LifeCoach-Bot mit Fokus auf persönliches Wachstum durch Mood
    python bot/main.py
    ```
 
+## Mood-Tracking
+
+- `/mood <stimmung>` speichert deine tägliche Stimmung.
+- `/moodstats` zeigt eine Übersicht der letzten sieben Tage.
+- Die SQLite-Datenbank wird automatisch initialisiert und liegt unter `data/mood.db`.
+- Für manuelle Initialisierung: `from services.mood_service import init_db; init_db()`
+
 ## Hinweise für Entwickler
 - OpenAI-API: Verwende das offizielle `openai`-Package und setze den API-Key über die `.env`.
 - Telegram-API: `python-telegram-bot` nutzt asynchrone Handler; achte auf robuste Fehlerbehandlung und Logging.
