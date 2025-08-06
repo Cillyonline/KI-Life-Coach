@@ -18,6 +18,7 @@ sys.path.append(str(Path(__file__).resolve().parents[1]))
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 from handler import help_command, start, mood, moodstats
+from reflect_handler import reflect
 from services.mood_service import init_db
 
 # Configure logging once for the whole application
@@ -72,6 +73,7 @@ def main() -> None:
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("mood", mood))
     application.add_handler(CommandHandler("moodstats", moodstats))
+    application.add_handler(CommandHandler("reflect", reflect))
     application.add_error_handler(error_handler)
 
     logger.info("Bot is starting. Press Ctrl-C to stop.")
