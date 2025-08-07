@@ -68,3 +68,16 @@ Ein KI-gestützter LifeCoach-Bot mit Fokus auf persönliches Wachstum durch Mood
 ## Hinweise für Entwickler
 - OpenAI-API: Verwende das offizielle `openai`-Package und setze den API-Key über die `.env`.
 - Telegram-API: `python-telegram-bot` nutzt asynchrone Handler; achte auf robuste Fehlerbehandlung und Logging.
+
+## Teststrategie & Testkataloge
+
+Die Qualitätssicherung erfolgt meilensteinorientiert. Für jeden Milestone existiert ein eigener Testkatalog mit manuellen und automatisierten Tests. Automatisierte Tests werden mit `pytest` ausgeführt, während manuelle Tests Nutzerinteraktionen und Edge Cases abdecken.
+
+Alle Testkataloge im Überblick:
+
+- [Zentrale Übersicht](TESTKATALOG.md)
+- [MVP](TESTKATALOG_MVP.md)
+- [Mood](TESTKATALOG_MOOD.md)
+- [GPT](TESTKATALOG_GPT.md)
+- [Habits](TESTKATALOG_HABITS.md)
+
