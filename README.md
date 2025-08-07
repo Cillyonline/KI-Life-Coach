@@ -43,6 +43,21 @@ Ein KI-gestützter LifeCoach-Bot mit Fokus auf persönliches Wachstum durch Mood
    python bot/main.py
    ```
 
+## API-Keys & Security
+
+- **Keine Secrets im Code**: API-Schlüssel werden ausschließlich über Umgebungsvariablen bezogen.
+- **GitHub Actions**: In der Repo-Oberfläche unter `Settings > Secrets and variables > Actions` können `TELEGRAM_TOKEN` und `OPENAI_API_KEY` als Secrets hinterlegt werden.
+- **Lokale Entwicklung**: Nutze eine `.env`-Datei (siehe `.env.example`). Diese Datei ist durch `.gitignore` geschützt und darf nie committet werden.
+- **Logging**: Es werden nur anonymisierte GPT-Logs ohne personenbezogene Daten gespeichert.
+
+## GPT-Integration
+
+- `/reflect [stil] <text>` startet einen Reflexionsdialog. Unterstützte Stile: `motivierend`, `analytisch`, `humorvoll`.
+- Der letzte Mood-Eintrag wird zusammen mit dem optionalen Text zu einem Prompt kombiniert und an GPT (z. B. `gpt-3.5-turbo`) gesendet.
+- Die Prompts folgen dem Schema: `Ziel → Kontext → Frage → Ausgabeformat`.
+- Antworten werden dem User als Textnachricht ausgegeben; Fehler werden verständlich kommuniziert.
+- Die letzten fünf Interaktionen werden pro Nutzer anonymisiert lokal protokolliert.
+
 ## Mood-Tracking
 
 - `/mood <stimmung>` speichert deine tägliche Stimmung.
@@ -68,3 +83,16 @@ Ein KI-gestützter LifeCoach-Bot mit Fokus auf persönliches Wachstum durch Mood
 ## Hinweise für Entwickler
 - OpenAI-API: Verwende das offizielle `openai`-Package und setze den API-Key über die `.env`.
 - Telegram-API: `python-telegram-bot` nutzt asynchrone Handler; achte auf robuste Fehlerbehandlung und Logging.
+
+## Teststrategie & Testkataloge
+
+Die Qualitätssicherung erfolgt meilensteinorientiert. Für jeden Milestone existiert ein eigener Testkatalog mit manuellen und automatisierten Tests. Automatisierte Tests werden mit `pytest` ausgeführt, während manuelle Tests Nutzerinteraktionen und Edge Cases abdecken.
+
+Alle Testkataloge im Überblick:
+
+- [Zentrale Übersicht](TESTKATALOG.md)
+- [MVP](TESTKATALOG_MVP.md)
+- [Mood](TESTKATALOG_MOOD.md)
+- [GPT](TESTKATALOG_GPT.md)
+- [Habits](TESTKATALOG_HABITS.md)
+
