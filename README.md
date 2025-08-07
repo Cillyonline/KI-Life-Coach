@@ -65,6 +65,21 @@ Ein KI-gestützter LifeCoach-Bot mit Fokus auf persönliches Wachstum durch Mood
 - Die SQLite-Datenbank wird automatisch initialisiert und liegt unter `data/mood.db`.
 - Für manuelle Initialisierung: `from services.mood_service import init_db; init_db()`
 
+## So funktionieren Habits & Routinen
+
+- `/habit <name>` legt eine neue Gewohnheit an.
+- `/habit_done <name>` markiert die Gewohnheit für heute als erledigt.
+- `/habits` zeigt alle Gewohnheiten mit Streak und den letzten sieben Tagen.
+- Die SQLite-Datenbank wird automatisch initialisiert und liegt unter `data/habits.db`.
+- Für manuelle Initialisierung: `from services.habit_service import init_db; init_db()`
+
+### Habit-Module & Secrets
+
+- Erinnerungsfunktionen oder weitere Integrationen benötigen API-Schlüssel, die
+  ausschließlich über Umgebungsvariablen wie `REMINDER_API_KEY` gesetzt werden.
+- Halte sensible Daten aus dem Quellcode fern und verwende `.env` oder das
+  Secrets-Management der jeweiligen Plattform.
+
 ## Hinweise für Entwickler
 - OpenAI-API: Verwende das offizielle `openai`-Package und setze den API-Key über die `.env`.
 - Telegram-API: `python-telegram-bot` nutzt asynchrone Handler; achte auf robuste Fehlerbehandlung und Logging.

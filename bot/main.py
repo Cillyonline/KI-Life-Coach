@@ -17,9 +17,13 @@ sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from telegram.ext import Application, CommandHandler, ContextTypes
 
-from handler import help_command, start, mood, moodstats
+codex/develop-habit-and-routine-tracking-module-2025-08-06
+from handler import help_command, start, mood, moodstats, habit, habit_done, habits
+from services.mood_service import init_db as init_mood_db
+from services import habit_service
 from reflect_handler import reflect
 from services.mood_service import init_db
+main
 
 # Configure logging once for the whole application
 logging.basicConfig(
@@ -65,7 +69,8 @@ def main() -> None:
 
     token = _load_token()
 
-    init_db()
+    init_mood_db()
+    habit_service.init_db()
 
     # Build the application and register command handlers
     application = Application.builder().token(token).build()
@@ -73,7 +78,13 @@ def main() -> None:
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("mood", mood))
     application.add_handler(CommandHandler("moodstats", moodstats))
+    codex/develop-habit-and-routine-tracking-module-2025-08-06
+    application.add_handler(CommandHandler("habit", habit))
+    application.add_handler(CommandHandler("habit_done", habit_done))
+    application.add_handler(CommandHandler("habits", habits))
+
     application.add_handler(CommandHandler("reflect", reflect))
+    main
     application.add_error_handler(error_handler)
 
     logger.info("Bot is starting. Press Ctrl-C to stop.")
